@@ -23,7 +23,7 @@ phases:
     commands:
       - echo Build completed on `date`
       - echo Logging in to Amazon ECR...
-      -- echo I am in post buid
+      - echo I am in post buid
       - aws --version
       - aws ecr get-login-password --region ${AWS_REGION} | docker login --username AWS --password-stdin ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com
       - echo Pushing the Docker images...
