@@ -22,26 +22,13 @@ phases:
   post_build:
     commands:
       - echo Build completed on `date`
-      - echo Logging in to Amazon ECR...
-      - aws --version
-      - echo docker check ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com
-      - aws ecr get-login-password --region ${AWS_REGION} | docker login --username AWS --password-stdin ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com
-
       - echo Pushing the Docker images...
       - docker push $REPOSITORY_URI:latest
       - docker push $REPOSITORY_URI:$IMAGE_TAG
-
       - echo Writing image definitions file...
-      - |
-        echo '[
-          {
-            "name": "'$ecs_container_name'",
-            "imageUri": "'$REPOSITORY_URI:$IMAGE_TAG'"
-          }
-        ]' > imagedefinitions.json
+      - printf '[{"name":"hello-world","imageUri":"%s"}]' $REPOSITORY_URI:$IMAGE_TAG > imagedefinitions.json
+artifacts:
 
-      - echo "Generated imagedefinitions.json:"
-      - cat imagedefinitions.json
 
 artifacts:
     files: imagedefinitions.json  
