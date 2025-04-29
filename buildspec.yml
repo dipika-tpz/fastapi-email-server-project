@@ -17,9 +17,7 @@ phases:
       - echo docker repository - ${REPOSITORY_URI}
       - docker build -t $REPOSITORY_URI:latest .
       - docker tag $REPOSITORY_URI:latest $REPOSITORY_URI:$IMAGE_TAG
-  test:
-  commands:
-    - echo Running tests inside container...
+
   post_build:
     commands:
       - echo Build completed on `date`
@@ -32,5 +30,8 @@ phases:
       - docker push $REPOSITORY_URI:$IMAGE_TAG
       - echo Writing image definitions file...
       - printf '[{"name":"'$ecs_container_name'","imageUri":"%s"}]' $REPOSITORY_URI:$IMAGE_TAG > imagedefinitions.json
+  test:
+  commands:
+    - echo Running tests inside container...
 artifacts:
     files: imagedefinitions.json
