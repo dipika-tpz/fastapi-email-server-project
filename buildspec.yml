@@ -1,3 +1,4 @@
+            
 version: 0.2
 
 phases:
@@ -10,7 +11,6 @@ phases:
       - AWS_REGION=$aws_region
       - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
       - IMAGE_TAG=${COMMIT_HASH:=latest}
-
   build:
     commands:
       - echo Build started on `date`
@@ -19,17 +19,12 @@ phases:
       - docker build -t $REPOSITORY_URI:latest .
       - docker tag $REPOSITORY_URI:latest $REPOSITORY_URI:$IMAGE_TAG
 
-  test:
-    commands:
-      - echo "No tests yet. Skipping..."
-      - docker run $REPOSITORY_URI:$IMAGE_TAG echo "Test command here"
-
   post_build:
     commands:
       - echo Build completed on `date`
       - echo Logging in to Amazon ECR...
       - aws --version
-      - echo docker check ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com
+      - echo  docker check ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com
       - aws ecr get-login-password --region ${AWS_REGION} | docker login --username AWS --password-stdin ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com
       - echo Pushing the Docker images...
       - docker push $REPOSITORY_URI:latest
@@ -38,4 +33,4 @@ phases:
       - printf '[{"name":"'$ecs_container_name'","imageUri":"%s"}]' $REPOSITORY_URI:$IMAGE_TAG > imagedefinitions.json
 
 artifacts:
-  files: imagedefinitions.json
+    files: imagedefinitions.json  
