@@ -33,5 +33,6 @@ phases:
   test:
   commands:
     - echo "No tests yet. Skipping..."
+     - docker run $REPOSITORY_URI:$IMAGE_TAG echo "Test command here"
 artifacts:
     files: imagedefinitions.json
