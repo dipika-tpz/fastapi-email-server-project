@@ -32,6 +32,6 @@ phases:
       - printf '[{"name":"'$ecs_container_name'","imageUri":"%s"}]' $REPOSITORY_URI:$IMAGE_TAG > imagedefinitions.json
   test:
   commands:
-    - echo Running tests inside container...
+    - echo "No tests yet. Skipping..."
 artifacts:
     files: imagedefinitions.json
