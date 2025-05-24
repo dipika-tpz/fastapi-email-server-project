@@ -1,2 +1,2 @@
-# fastapi-email-server-project
-FastAPI Email Server using AWS Resources
+# fastapi-hello-world
+FastAPI Email Server using AWS Resources for deployment testing
