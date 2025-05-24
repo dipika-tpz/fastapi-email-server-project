@@ -1,5 +1,5 @@
 FROM python:3.9-slim-buster
-
+# python image cloned
 WORKDIR /app
 
 COPY requirements.txt /app/requirements.txt
